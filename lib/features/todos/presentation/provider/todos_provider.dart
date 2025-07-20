@@ -11,12 +11,13 @@ import 'package:clear_tasks/features/todos/domain/use_case/update_todo_use_case.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:clear_tasks/core/constants/hive_constants.dart';
 
 part 'todos_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 Box<TodoDto> todoBox(Ref ref) {
-  return Hive.box<TodoDto>('todos');
+  return Hive.box<TodoDto>(HiveConstants.todoBox);
 }
 
 @Riverpod(keepAlive: true)
