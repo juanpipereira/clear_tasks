@@ -14,4 +14,22 @@ class Todo {
     required this.user,
     required this.labels,
   });
+
+  Todo copyWith({
+    String? id,
+    String? title,
+    bool? isCompleted,
+    String? description,
+    String? user,
+    List<String>? labels,
+  }) {
+    return Todo(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      isCompleted: isCompleted ?? this.isCompleted,
+      description: description ?? this.description,
+      user: user ?? this.user,
+      labels: labels ?? this.labels,
+    );
+  }
 }
