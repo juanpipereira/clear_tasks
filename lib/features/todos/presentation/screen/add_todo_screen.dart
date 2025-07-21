@@ -1,3 +1,5 @@
+import 'package:clear_tasks/features/prompts/core/constants/prompt_constants.dart';
+import 'package:clear_tasks/features/prompts/presentation/provider/prompts_provider.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
 import 'package:clear_tasks/features/todos/presentation/provider/todos_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
   final _descriptionController = TextEditingController();
   final _userController = TextEditingController();
   final _labelsController = TextEditingController();
+  final _aiPromptController = TextEditingController();
   bool _useAiDescription = false;
 
   @override
@@ -24,11 +27,30 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
     _descriptionController.dispose();
     _userController.dispose();
     _labelsController.dispose();
+    _aiPromptController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(promptsNotifierProvider, (previous, next) {
+      next.when(
+        data: (response) {
+          if (response != null) {
+            _descriptionController.text = response.text;
+          }
+        },
+        error: (err, stack) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error generating description: $err')),
+          );
+        },
+        loading: () {},
+      );
+    });
+
+    final promptState = ref.watch(promptsNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Todo'),
@@ -81,12 +103,34 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
               if (_useAiDescription)
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'AI Prompt for Description',
-                      border: OutlineInputBorder(),
-                    ),
-                    maxLines: 3,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _aiPromptController,
+                        decoration: const InputDecoration(
+                          labelText: 'AI Prompt for Description',
+                          border: OutlineInputBorder(),
+                        ),
+                        maxLines: 3,
+                      ),
+                      const SizedBox(height: 8.0),
+                      if (promptState.isLoading)
+                        const Center(child: CircularProgressIndicator())
+                      else
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_aiPromptController.text.isNotEmpty) {
+                              final fullPrompt = PromptConstants
+                                  .buildTodoDescriptionPrompt(
+                                      _aiPromptController.text);
+                              ref
+                                  .read(promptsNotifierProvider.notifier)
+                                  .makePrompt(fullPrompt);
+                            }
+                          },
+                          child: const Text('Generate Description'),
+                        ),
+                    ],
                   ),
                 ),
               const SizedBox(height: 16.0),
