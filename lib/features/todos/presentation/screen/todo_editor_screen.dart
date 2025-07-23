@@ -1,3 +1,4 @@
+import 'package:clear_tasks/core/presentation/widgets/adaptive_scaffold.dart';
 import 'package:clear_tasks/features/prompts/core/constants/prompt_constants.dart';
 import 'package:clear_tasks/features/prompts/presentation/provider/prompts_provider.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TodoEditorScreen extends ConsumerStatefulWidget {
   const TodoEditorScreen({super.key, this.todo});
-  
+
   final Todo? todo;
 
   @override
@@ -65,12 +66,10 @@ class _TodoEditorScreenState extends ConsumerState<TodoEditorScreen> {
     });
 
     final promptState = ref.watch(promptsNotifierProvider);
+    final pageTitle = _isEditMode ? 'Edit Todo' : 'Add New Todo';
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_isEditMode ? 'Edit Todo' : 'Add New Todo'),
-        centerTitle: true,
-      ),
+    return AdaptiveScaffold(
+      title: pageTitle,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -130,13 +129,14 @@ class _TodoEditorScreenState extends ConsumerState<TodoEditorScreen> {
                       ),
                       const SizedBox(height: 8.0),
                       if (promptState.isLoading)
-                        const Center(child: CircularProgressIndicator())
+                        const Center(
+                            child: CircularProgressIndicator.adaptive())
                       else
                         ElevatedButton(
                           onPressed: () {
                             if (_aiPromptController.text.isNotEmpty) {
-                              final fullPrompt = PromptConstants
-                                  .buildTodoDescriptionPrompt(
+                              final fullPrompt =
+                                  PromptConstants.buildTodoDescriptionPrompt(
                                       _aiPromptController.text);
                               ref
                                   .read(promptsNotifierProvider.notifier)
@@ -188,7 +188,7 @@ class _TodoEditorScreenState extends ConsumerState<TodoEditorScreen> {
                           .map((e) => e.trim())
                           .where((s) => s.isNotEmpty)
                           .toList(),
-                    ); // TODO: extract logic for converting labels from string to a function
+                    );
                     if (_isEditMode) {
                       ref.read(todosNotifierProvider.notifier).updateTodo(todo);
                       ScaffoldMessenger.of(context).showSnackBar(

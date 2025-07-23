@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,17 +28,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
       theme: ThemeData(
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          brightness: Brightness.light,
+          primaryColor: CupertinoColors.systemPurple,
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple, brightness: Brightness.dark),
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
         useMaterial3: true,
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          brightness: Brightness.dark,
+          primaryColor: CupertinoColors.systemPurple,
+          textTheme: CupertinoTextThemeData(
+            primaryColor: CupertinoColors.systemPurple,
+          ),
+          barBackgroundColor: CupertinoColors.systemBackground,
+        ),
       ),
       home: const TodosScreen(),
     );
