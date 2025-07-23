@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'todo_statistics_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$todoStatisticsNotifierHash() =>
+    r'5a5d1c363e4334199be3d1542e853ed38c42f11d';
+
+/// See also [TodoStatisticsNotifier].
+@ProviderFor(TodoStatisticsNotifier)
+final todoStatisticsNotifierProvider = AutoDisposeAsyncNotifierProvider<
+    TodoStatisticsNotifier, TodoStatistics>.internal(
+  TodoStatisticsNotifier.new,
+  name: r'todoStatisticsNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$todoStatisticsNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TodoStatisticsNotifier = AutoDisposeAsyncNotifier<TodoStatistics>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
