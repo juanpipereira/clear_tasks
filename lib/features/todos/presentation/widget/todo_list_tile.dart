@@ -19,7 +19,7 @@ class TodoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onTap,
-      leading: Checkbox(
+      leading: Checkbox.adaptive(
         value: todo.isCompleted,
         onChanged: onToggleComplete,
       ),
