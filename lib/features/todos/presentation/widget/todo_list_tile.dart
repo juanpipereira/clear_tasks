@@ -7,15 +7,18 @@ class TodoListTile extends StatelessWidget {
     required this.todo,
     required this.onDelete,
     required this.onToggleComplete,
+    this.onTap,
   });
 
   final Todo todo;
   final VoidCallback onDelete;
   final ValueChanged<bool?> onToggleComplete;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: Checkbox(
         value: todo.isCompleted,
         onChanged: onToggleComplete,
