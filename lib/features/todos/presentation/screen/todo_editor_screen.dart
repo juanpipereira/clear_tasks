@@ -5,14 +5,16 @@ import 'package:clear_tasks/features/todos/presentation/provider/todos_provider.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddTodoScreen extends ConsumerStatefulWidget {
-  const AddTodoScreen({super.key});
+class TodoEditorScreen extends ConsumerStatefulWidget {
+  const TodoEditorScreen({super.key, this.todo});
+  
+  final Todo? todo;
 
   @override
-  ConsumerState<AddTodoScreen> createState() => _AddTodoScreenState();
+  ConsumerState<TodoEditorScreen> createState() => _TodoEditorScreenState();
 }
 
-class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
+class _TodoEditorScreenState extends ConsumerState<TodoEditorScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -20,6 +22,19 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
   final _labelsController = TextEditingController();
   final _aiPromptController = TextEditingController();
   bool _useAiDescription = false;
+  bool _isEditMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.todo != null) {
+      _isEditMode = true;
+      _titleController.text = widget.todo!.title;
+      _descriptionController.text = widget.todo!.description;
+      _userController.text = widget.todo!.user;
+      _labelsController.text = widget.todo!.labels.join(', ');
+    }
+  }
 
   @override
   void dispose() {
@@ -53,7 +68,7 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Todo'),
+        title: Text(_isEditMode ? 'Edit Todo' : 'Add New Todo'),
         centerTitle: true,
       ),
       body: Padding(
@@ -159,10 +174,13 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    final newTodo = Todo(
-                      id: DateTime.now().toIso8601String(),
+                    final todo = Todo(
+                      id: _isEditMode
+                          ? widget.todo!.id
+                          : DateTime.now().toIso8601String(),
                       title: _titleController.text,
-                      isCompleted: false,
+                      isCompleted:
+                          _isEditMode ? widget.todo!.isCompleted : false,
                       description: _descriptionController.text,
                       user: _userController.text,
                       labels: _labelsController.text
@@ -170,17 +188,26 @@ class _AddTodoScreenState extends ConsumerState<AddTodoScreen> {
                           .map((e) => e.trim())
                           .where((s) => s.isNotEmpty)
                           .toList(),
-                    );
-                    ref.read(todosNotifierProvider.notifier).add(newTodo);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Todo "${newTodo.title}" created'),
-                      ),
-                    );
+                    ); // TODO: extract logic for converting labels from string to a function
+                    if (_isEditMode) {
+                      ref.read(todosNotifierProvider.notifier).updateTodo(todo);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Todo "${todo.title}" updated'),
+                        ),
+                      );
+                    } else {
+                      ref.read(todosNotifierProvider.notifier).add(todo);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Todo "${todo.title}" created'),
+                        ),
+                      );
+                    }
                     Navigator.of(context).pop();
                   }
                 },
-                child: const Text('Save Todo'),
+                child: Text(_isEditMode ? 'Update Todo' : 'Save Todo'),
               ),
             ],
           ),

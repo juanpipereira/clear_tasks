@@ -1,7 +1,7 @@
 import 'package:clear_tasks/features/todos/presentation/provider/todos_provider.dart';
 import 'package:clear_tasks/features/todos/presentation/widget/todo_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:clear_tasks/features/todos/presentation/screen/add_todo_screen.dart';
+import 'package:clear_tasks/features/todos/presentation/screen/todo_editor_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TodosScreen extends ConsumerWidget {
@@ -29,6 +29,11 @@ class TodosScreen extends ConsumerWidget {
               final todo = todoList[index];
               return TodoListTile(
                 todo: todo,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TodoEditorScreen(todo: todo),
+                  ));
+                },
                 onDelete: () {
                   ref.read(todosNotifierProvider.notifier).delete(todo.id);
                 },
@@ -48,7 +53,7 @@ class TodosScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const AddTodoScreen(),
+            builder: (context) => const TodoEditorScreen(),
           ));
         },
         child: const Icon(Icons.add),
