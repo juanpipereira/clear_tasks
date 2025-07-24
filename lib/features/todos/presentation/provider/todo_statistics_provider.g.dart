@@ -7,7 +7,7 @@ part of 'todo_statistics_provider.dart';
 // **************************************************************************
 
 String _$todoStatisticsNotifierHash() =>
-    r'5a5d1c363e4334199be3d1542e853ed38c42f11d';
+    r'ea3e7fba122c09a7899122c3a50dfec3f8332df8';
 
 /// See also [TodoStatisticsNotifier].
 @ProviderFor(TodoStatisticsNotifier)

@@ -1,11 +1,16 @@
+import 'package:clear_tasks/features/todos/domain/model/todo_statistics_by_label.dart';
+
 class TodoStatistics {
   final int completedTodos;
   final int totalTodos;
-  double get completedProgress => completedTodos / totalTodos;
+  final List<TodoStatisticsByLabel> todoStatisticsByLabel;
+  double get completedProgress =>
+      totalTodos > 0 ? completedTodos / totalTodos : 0;
 
   const TodoStatistics({
     this.completedTodos = 0,
     this.totalTodos = 0,
+    this.todoStatisticsByLabel = const [],
   });
 
   @override
@@ -14,8 +19,12 @@ class TodoStatistics {
       other is TodoStatistics &&
           runtimeType == other.runtimeType &&
           completedTodos == other.completedTodos &&
-          totalTodos == other.totalTodos;
+          totalTodos == other.totalTodos &&
+          todoStatisticsByLabel == other.todoStatisticsByLabel;
 
   @override
-  int get hashCode => completedTodos.hashCode ^ totalTodos.hashCode;
+  int get hashCode =>
+      completedTodos.hashCode ^
+      totalTodos.hashCode ^
+      todoStatisticsByLabel.hashCode;
 }

@@ -9,24 +9,58 @@ class TodoStatisticsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final statistics = ref.watch(todoStatisticsNotifierProvider);
+    final todoStatistics = ref.watch(todoStatisticsNotifierProvider);
     return AdaptiveScaffold(
       title: 'Statistics',
-      body: statistics.when(
+      body: todoStatistics.when(
         data: (statistics) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TodoStatisticsBar(
-                    value: statistics.completedProgress,
-                    title:
-                        'Completed Tasks: ${statistics.completedTodos} / ${statistics.totalTodos}',
+          final todosLabels = statistics.todoStatisticsByLabel;
+          final totalTodos = statistics.totalTodos;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CustomScrollView(
+              slivers: [
+                PinnedHeaderSliver(
+                  child: ColoredBox(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 48),
+                      child: TodoStatisticsBar(
+                        value: statistics.completedProgress,
+                        title:
+                            'Completed Tasks: ${statistics.completedTodos} / $totalTodos',
+                        color: Colors.green.shade400,
+                      ),
+                    ),
                   ),
-                ],
-              ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Text(
+                      'Completed tasks by label',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                ),
+                SliverList.separated(
+                  itemCount: todosLabels.length,
+                  itemBuilder: (_, i) {
+                    final currentTodoLabel = todosLabels[i];
+                    return TodoStatisticsBar(
+                      value: currentTodoLabel.completedProgress,
+                      title: currentTodoLabel.label,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 12,
+                  ),
+                ),
+                const SliverPadding(
+                  padding: EdgeInsets.only(bottom: 80),
+                ),
+              ],
             ),
           );
         },

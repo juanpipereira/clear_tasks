@@ -1,7 +1,9 @@
 import 'package:clear_tasks/features/todos/data/data_source/todos_data_source.dart';
 import 'package:clear_tasks/features/todos/data/mapper/todo_dto_to_model.dart';
 import 'package:clear_tasks/features/todos/data/mapper/todo_to_dto.dart';
+import 'package:clear_tasks/features/todos/data/mapper/todos_to_todo_statistics.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
+import 'package:clear_tasks/features/todos/domain/model/todo_statistics.dart';
 import 'package:clear_tasks/features/todos/domain/repository/todos_repository.dart';
 
 class TodosRepositoryImpl implements TodosRepository {
@@ -28,5 +30,11 @@ class TodosRepositoryImpl implements TodosRepository {
   @override
   Future<void> updateTodo(Todo todo) async {
     await _dataSource.updateTodo(todo.toDto());
+  }
+
+  @override
+  Future<TodoStatistics> getTodoStatistics() async {
+    final todos = await getTodos();
+    return todos.toTodoStatistics();
   }
 }
