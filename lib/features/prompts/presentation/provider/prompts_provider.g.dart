@@ -6,7 +6,7 @@ part of 'prompts_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$generativeModelHash() => r'c2bed2cd6a563270e76aee4993ac79594d7c69dc';
+String _$generativeModelHash() => r'2cc0b1ad568fff2125fdc9b1a6110eae17811136';
 
 /// See also [generativeModel].
 @ProviderFor(generativeModel)

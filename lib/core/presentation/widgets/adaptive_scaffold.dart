@@ -35,7 +35,10 @@ class AdaptiveScaffold extends StatelessWidget {
               trailing: iosAction,
               leading: appBarAction,
             ),
-            child: Scaffold(body: body),
+            child: SafeArea(
+              bottom: false,
+              child: Scaffold(body: body),
+            ),
           )
         : Scaffold(
             appBar: AppBar(
