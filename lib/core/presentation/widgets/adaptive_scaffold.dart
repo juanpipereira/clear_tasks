@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +26,8 @@ class AdaptiveScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
+    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    return isIOS
         ? CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
               middle: Text(title),
