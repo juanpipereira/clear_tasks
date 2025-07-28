@@ -1,4 +1,3 @@
-import 'dart:io' show Platform;
 import 'package:clear_tasks/core/navigation/navigation_extension.dart';
 import 'package:clear_tasks/core/presentation/widgets/adaptive_scaffold.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
@@ -59,7 +58,7 @@ class TodosScreen extends ConsumerWidget {
         error: (_, __) =>
             const Center(child: Text('Sorry, something went wrong.')),
       ),
-      appBarAction: Platform.isIOS
+      appBarAction: Theme.of(context).platform == TargetPlatform.iOS
           ? CupertinoButton(
               onPressed: () => _navigateToStatistics(context),
               child: const Icon(CupertinoIcons.chart_bar_alt_fill),
