@@ -14,13 +14,15 @@ void main() {
           body: TodoStatisticsBar(
             title: title,
             value: value,
+            completedAmount: 3,
+            totalAmount: 4,
           ),
         ),
       ),
     );
 
     // Verify that the widget renders the title
-    expect(find.text(title), findsOneWidget);
+    expect(find.text('$title: 3 / 4'), findsOneWidget);
 
     // Verify that the LinearProgressIndicator has the correct value
     final progressIndicator =

@@ -26,9 +26,10 @@ class TodoStatisticsScreen extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 48),
                       child: TodoStatisticsBar(
+                        title: 'Completed Tasks',
                         value: statistics.completedProgress,
-                        title:
-                            'Completed Tasks: ${statistics.completedTodos} / $totalTodos',
+                        completedAmount: statistics.completedTodos,
+                        totalAmount: totalTodos,
                         color: Colors.green.shade400,
                       ),
                     ),
@@ -50,6 +51,8 @@ class TodoStatisticsScreen extends ConsumerWidget {
                     return TodoStatisticsBar(
                       value: currentTodoLabel.completedProgress,
                       title: currentTodoLabel.label,
+                      completedAmount: currentTodoLabel.completedCount,
+                      totalAmount: currentTodoLabel.count,
                       style: Theme.of(context).textTheme.titleMedium,
                     );
                   },

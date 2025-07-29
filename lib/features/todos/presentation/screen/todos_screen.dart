@@ -26,7 +26,7 @@ class TodosScreen extends ConsumerWidget {
     final todos = ref.watch(todosNotifierProvider);
 
     return AdaptiveScaffold(
-      title: 'Todos',
+      title: 'Clear Tasks',
       body: todos.when(
         data: (todoList) {
           if (todoList.isEmpty) {
@@ -38,17 +38,21 @@ class TodosScreen extends ConsumerWidget {
             itemCount: todoList.length,
             itemBuilder: (context, index) {
               final todo = todoList[index];
-              return TodoListTile(
-                todo: todo,
-                onTap: () => _navigateToEditor(context, todo: todo),
-                onDelete: () {
-                  ref.read(todosNotifierProvider.notifier).delete(todo.id);
-                },
-                onToggleComplete: (value) {
-                  ref
-                      .read(todosNotifierProvider.notifier)
-                      .updateTodo(todo.copyWith(isCompleted: value));
-                },
+              final isLast = index == todoList.length - 1;
+              return Padding(
+                padding: EdgeInsets.only(bottom: isLast ? 32 : 0),
+                child: TodoListTile(
+                  todo: todo,
+                  onTap: () => _navigateToEditor(context, todo: todo),
+                  onDelete: () {
+                    ref.read(todosNotifierProvider.notifier).delete(todo.id);
+                  },
+                  onToggleComplete: (value) {
+                    ref
+                        .read(todosNotifierProvider.notifier)
+                        .updateTodo(todo.copyWith(isCompleted: value));
+                  },
+                ),
               );
             },
           );

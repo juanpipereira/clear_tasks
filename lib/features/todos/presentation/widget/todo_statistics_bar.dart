@@ -5,12 +5,16 @@ class TodoStatisticsBar extends StatelessWidget {
     super.key,
     required this.value,
     required this.title,
+    required this.completedAmount,
+    required this.totalAmount,
     this.style,
     this.color,
   });
 
   final double value;
   final String title;
+  final int completedAmount;
+  final int totalAmount;
   final TextStyle? style;
   final Color? color;
 
@@ -21,7 +25,7 @@ class TodoStatisticsBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          title,
+          '$title: $completedAmount / $totalAmount',
           style: style ?? Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(height: 12),
