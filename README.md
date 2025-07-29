@@ -6,7 +6,7 @@ Clear Tasks is a simple to-do list application. It helps you organize your tasks
 
 | Android | iOS |
 | :---: | :---: |
-| *Android video coming soon* | *iOS video coming soon* |
+|<video src="https://github.com/user-attachments/assets/ff888717-990e-4bc2-9cb7-90095a709a93.mp4">|<video src="https://github.com/user-attachments/assets/91ed0acc-838c-404f-a69f-0ddd04790644.mp4">|
 
 ## Features
 
@@ -22,13 +22,13 @@ Clear Tasks is a simple to-do list application. It helps you organize your tasks
 The application follows a clean architecture pattern, separating the code into three main layers:
 
 - **Data:** Handles data sources, such as the local database (Hive) and the Gemini API.
-- **Domain:** Contains the core of the app, including models and use cases.
+- **Domain:** Contains the business logic of the app, including models and use cases.
 - **Presentation:** Responsible for the UI and user interaction, using the Riverpod package for state management.
 
 ## Technologies Used
 
 - **[Flutter](https://flutter.dev/)**
-- **[Riverpod](https://riverpod.dev/):** A state management library for Flutter that helps to manage the state of the application.
+- **[Riverpod](https://pub.dev/packages/riverpod):** A state management library for Flutter that helps to manage the state of the application.
 - **[Hive](https://pub.dev/packages/hive):** A lightweight and fast key-value database for Flutter apps.
 - **[Google Gemini API](https://ai.google.dev/):** Used to provide AI suggestions in text format.
 
@@ -43,6 +43,7 @@ The application follows a clean architecture pattern, separating the code into t
    flutter pub get
    ```
 3. **Run the app with your Gemini API Key:**
+
    This project uses the Google Gemini API for AI-powered requests. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
    Run the app using the `--define` property to provide the API key.
@@ -50,3 +51,5 @@ The application follows a clean architecture pattern, separating the code into t
    flutter run --define=GEMINI_API_KEY="YOUR_API_KEY"
    ```
    Replace `"YOUR_API_KEY"` with your actual Gemini API key.
+
+   *Important:* In case of ignoring this step, the app will run but the AI request will fail.
