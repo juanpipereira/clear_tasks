@@ -30,7 +30,7 @@ void main() {
     isCompleted: false,
     description: 'Description',
     user: 'User',
-    labels: [],
+    labels: ['test', 'label'],
   );
 
   setUp(() {
@@ -54,7 +54,8 @@ void main() {
   group('TodosNotifier', () {
     test('build retrieves the initial list of todos', () async {
       // Arrange
-      when(() => mockGetTodosUseCase.execute()).thenAnswer((_) async => [tTodo]);
+      when(() => mockGetTodosUseCase.execute())
+          .thenAnswer((_) async => [tTodo]);
 
       // Act
       final result = await container.read(todosNotifierProvider.future);
@@ -67,19 +68,27 @@ void main() {
     test('add calls the use case and invalidates the state', () async {
       // Arrange
       when(() => mockAddTodoUseCase.execute(any())).thenAnswer((_) async => {});
-      when(() => mockGetTodosUseCase.execute()).thenAnswer((_) async => [tTodo]);
+      when(() => mockGetTodosUseCase.execute())
+          .thenAnswer((_) async => [tTodo]);
       // Act
-      await container.read(todosNotifierProvider.notifier).add(tTodo);
+      await container.read(todosNotifierProvider.notifier).add(
+        title: 'New Todo',
+        user: 'Test User',
+        description: 'Test Description',
+        labelsSet: ['test', 'label'],
+      );
 
       // Assert
-      verify(() => mockAddTodoUseCase.execute(tTodo)).called(1);
+      verify(() => mockAddTodoUseCase.execute(any())).called(1);
       verify(() => mockGetTodosUseCase.execute()).called(1);
     });
 
     test('update calls the use case and invalidates the state', () async {
       // Arrange
-      when(() => mockUpdateTodoUseCase.execute(any())).thenAnswer((_) async => {});
-      when(() => mockGetTodosUseCase.execute()).thenAnswer((_) async => [tTodo]);
+      when(() => mockUpdateTodoUseCase.execute(any()))
+          .thenAnswer((_) async => {});
+      when(() => mockGetTodosUseCase.execute())
+          .thenAnswer((_) async => [tTodo]);
 
       // Act
       await container.read(todosNotifierProvider.notifier).updateTodo(tTodo);
@@ -91,7 +100,8 @@ void main() {
 
     test('delete calls the use case and invalidates the state', () async {
       // Arrange
-      when(() => mockDeleteTodoUseCase.execute(any())).thenAnswer((_) async => {});
+      when(() => mockDeleteTodoUseCase.execute(any()))
+          .thenAnswer((_) async => {});
       when(() => mockGetTodosUseCase.execute()).thenAnswer((_) async => []);
 
       // Act

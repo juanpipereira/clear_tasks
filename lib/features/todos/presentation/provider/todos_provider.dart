@@ -11,7 +11,20 @@ class TodosNotifier extends _$TodosNotifier {
     return ref.watch(getTodosUseCaseProvider).execute();
   }
 
-  Future<void> add(Todo todo) async {
+  Future<void> add({
+    required String title,
+    required String user,
+    required String description,
+    required List<String> labelsSet,
+  }) async {
+    final todo = Todo(
+      id: DateTime.now().toIso8601String(),
+      title: title,
+      isCompleted: false,
+      description: description,
+      user: user,
+      labels: labelsSet,
+    );
     await ref.read(addTodoUseCaseProvider).execute(todo);
     ref.invalidateSelf();
   }

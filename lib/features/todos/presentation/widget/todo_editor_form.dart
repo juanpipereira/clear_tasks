@@ -1,3 +1,4 @@
+import 'package:clear_tasks/core/domain/model/splitted_list_to_string.dart';
 import 'package:clear_tasks/core/presentation/widgets/not_empty_text_form_field.dart';
 import 'package:clear_tasks/features/prompts/presentation/provider/prompts_provider.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
@@ -31,7 +32,7 @@ class _TodoEditorFormState extends ConsumerState<TodoEditorForm> {
       _titleController.text = widget.todo!.title;
       _descriptionController.text = widget.todo!.description;
       _userController.text = widget.todo!.user;
-      _labelsController.text = widget.todo!.labels.join(', ');
+      _labelsController.text = widget.todo!.labels.joinToString();
     }
   }
 

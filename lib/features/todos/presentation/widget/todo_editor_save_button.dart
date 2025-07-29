@@ -1,3 +1,4 @@
+import 'package:clear_tasks/core/domain/model/string_split_to_list.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
 import 'package:clear_tasks/features/todos/presentation/provider/todos_provider.dart';
 import 'package:flutter/material.dart';
@@ -28,32 +29,33 @@ class TodoEditorSaveButton extends ConsumerWidget {
     return ElevatedButton(
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          final newTodo = Todo(
-            id: isEditMode
-                ? todo!.id
-                : DateTime.now().toIso8601String(),
-            title: titleController.text,
-            isCompleted: isEditMode ? todo!.isCompleted : false,
-            description: descriptionController.text,
-            user: userController.text,
-            labels: labelsController.text
-                .split(',')
-                .map((e) => e.trim())
-                .where((s) => s.isNotEmpty)
-                .toList(),
-          );
-          if (isEditMode) {
+          final title = titleController.text;
+          final description = descriptionController.text;
+          final user = userController.text;
+          final labels = labelsController.text.splitToList();
+          if (isEditMode && todo != null) {
+            final newTodo = todo!.copyWith(
+              title: title,
+              user: user,
+              description: description,
+              labels: labels,
+            );
             ref.read(todosNotifierProvider.notifier).updateTodo(newTodo);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Todo "${newTodo.title}" updated'),
+                content: Text('Todo "$title" updated'),
               ),
             );
           } else {
-            ref.read(todosNotifierProvider.notifier).add(newTodo);
+            ref.read(todosNotifierProvider.notifier).add(
+                  title: title,
+                  user: user,
+                  description: description,
+                  labelsSet: labels,
+                );
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Todo "${newTodo.title}" created'),
+                content: Text('Todo "$title" created'),
               ),
             );
           }

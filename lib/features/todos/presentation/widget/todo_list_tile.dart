@@ -1,3 +1,4 @@
+import 'package:clear_tasks/core/domain/model/splitted_list_to_string.dart';
 import 'package:clear_tasks/features/todos/domain/model/todo.dart';
 import 'package:flutter/material.dart';
 
@@ -38,19 +39,19 @@ class TodoListTile extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(
                 'Description: ${todo.description}',
-                maxLines: 2,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           if (todo.labels.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Text('Labels: ${todo.labels.join(', ')}'),
+              child: Text('Labels: ${todo.labels.joinToString()}'),
             ),
         ],
       ),
       trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.red),
+        icon: const Icon(Icons.delete, color: Colors.grey),
         onPressed: onDelete,
       ),
     );
