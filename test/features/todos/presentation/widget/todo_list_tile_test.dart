@@ -35,9 +35,9 @@ void main() {
 
     // Verify that the widget renders the todo's data
     expect(find.text(tTodo.title), findsOneWidget);
-    expect(find.text('Description: ${tTodo.description}'), findsOneWidget);
+    expect(find.text(tTodo.description), findsOneWidget);
     expect(find.text(tTodo.user), findsOneWidget);
-    expect(find.text('Labels: ${tTodo.labels.joinToString()}'), findsOneWidget);
+    expect(find.text(tTodo.labels.joinToString()), findsOneWidget);
 
     // Verify that the checkbox is not checked
     expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isFalse);
