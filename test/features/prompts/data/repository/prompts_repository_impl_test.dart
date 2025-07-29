@@ -21,7 +21,7 @@ void main() {
   final tPromptResponseDto = PromptResponseDto(
     text: 'Test Response',
   );
-  final tPromptResponse = PromptResponse(
+  const tPromptResponse = PromptResponse(
     text: 'Test Response',
   );
 
